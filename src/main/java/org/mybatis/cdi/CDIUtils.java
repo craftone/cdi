@@ -51,7 +51,7 @@ public final class CDIUtils {
       // Portable 1.1+ CDI Lookup ----------------------------------------------
       Method currentM, getBeanManagerM;
       try {
-        Class c = Class.forName("javax.enterprise.inject.spi.CDI");
+        Class<?> c = Class.forName("javax.enterprise.inject.spi.CDI");
         currentM = c.getMethod("current");
         getBeanManagerM = c.getMethod("getBeanManager");
       } catch (Exception ex) {
@@ -80,8 +80,9 @@ public final class CDIUtils {
     static BeanManager getBeanManager() {
       if (current != null) {
         try {
-          Object cdi = current.invoke(null);
-          return (BeanManager) getBeanManager.invoke(cdi);
+//          Object cdi = current.invoke(null);
+//          return (BeanManager) getBeanManager.invoke(cdi);
+          return javax.enterprise.inject.spi.CDI.current().getBeanManager();
         } catch (Exception ex) {
           throw new RuntimeException(ex);
         }
